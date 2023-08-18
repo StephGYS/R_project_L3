@@ -1,0 +1,388 @@
+---
+documentclass: "compterendu"
+lang: true
+babel-lang: "french"
+geometry:
+  - left=1.5cm
+  - right=1.5cm
+  - top=1.5cm
+  - bottom=2cm
+title: "Le programme d'investissement de l'État français (IDEX) a-t-il une influence sur le domaine de recherche des bénéficiaires de la prime d'excellence scientifique ?"
+author: 
+  - GNAGO YANNICK
+  - AA ICHATOU SOW 
+  
+email:
+  - yannick.gnago@univ-reims.fr
+  - aa-ichatou-m.sow@univ-reims.fr
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: "On essayera de mettre en évidence l'influence du programme d'investissement de l'État français dans l'enseignement supérieur et la recherche(IDEX) sur le domaine de recherche des bénéficiaires de la prime d’excellence scientifique. Nous avons donc une base de données relative aux bénéficiaires de la prime d'excellence scientifique de 1993 à 2012 [sur-le-site](https://www.data.gouv.fr/fr/datasets/les-beneficiaires-de-la-prime-d-excellence-scientifique-mesr/). On a d'abord faire le pré-traitement de la base, puis nous avons étudié quelque variables et ensuite on a fait le croisement des variables afin d'avoir une appréhension sur leurs relations."
+anac: "2020-2021"
+diplome: "Licence Mathématiques Appliquées, 3\\up{ème} année"
+module: "MA0606"
+enseig: "Philippe Regnault"
+evaluation: "Compte-rendu de projet"
+output: 
+  bookdown::pdf_book:
+    template: template.tex
+    fig_caption: yes
+    keep_tex: yes
+    toc: yes
+bibliography: biblio_cr-urca.bib
+biblio-style: plain
+link-citations: yes
+---
+
+# L'étude univarié
+Dans cette partie, nous essayerons au mieux d'expliquer les différentes variables et nous étudierons quelques-unes. Après le pré-traitement, notre jeu de donnée est constitué de 11 variables, dont voici ci-dessous quelques définitions :
+
+* annee: l'année d'obtention de la prime(de 1993 à 2012).
+* sexe: le sexe des bénéficiaires ( __femmes__ et __hommes__).
+* seteur_disciplinaire: le secteur de section CNU(conseil national des universités) du bénéficiaire de la prime i.e. son domaine de recherche. Il y a dans l'ensemble le __Droit et sciences économiques__, les __Lettres et sciences humaines__, la __Santé__, les __Sciences__ et les __STAPS__.
+* etablissement: l'école des bénéficiaires.
+* groupe_de_corps: la profession du bénéficiaire de la prime. Il y a : des __Professeurs et assimilés__, des __Maîtres de conférences et assimilés__, des __particuliers__(case vide dans la dataframe).
+* region : la région du laboratoire de recherche des bénéfiacaires de la prime.
+* beneficiaires : Le nombre de bénéficiaires selon l' __etablissement__, le __sexe__, l' __année__, ....
+* distance_univ: Le lien entre le pôle de  de recherche et un etablissement supérieur. Il y a __PRES__[^comment] (pour les bénéficiaires dont le pôle de recherche est rattaché à l'établissement) et __HORS PRES__(pour les bénéficiaires dont le pôle de recherche n'est pas rattaché en dehors de l'établissement).
+* ideX[^commentaire]: il y a __HORS IDEX__ pour les bénéficiaires sans le programme IDEX et __IDEX__ pour les bénéficiaires avec le programme IDEX.
+
+
+## Le programme d'investissement. __idex__
+Il représente ici l'effectif des bénéficiaires suivant un le programme d'investissement IDEX ou pas.
+Parmi les établissements des bénéficiaires primés, on recense 75.4% __HORS IDEX__ et 24.6% __IDEX__.  
+La répartition du programme d'investissement est illustrée par la __figure 1__.
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Répartition des établissements selon le statut IDEX/HORS IDEX. "}
+knitr::include_graphics("f1.png")
+```
+
+## Le sexe des bénéficaires. __sexe__
+Il représente l'effectif du sexe suivant les bénéficiaires de la prime d'excellence.   
+Parmi les bénéficiaires, on recense 62.9% d'hommes et 37.1% de femmes durant la période de 1993 à 2012(__Voir la figure 2__).
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Répartition du sexe chez les bénéficiaires du prix d'excellence scientifique de 1993 à 2012. "}
+knitr::include_graphics("f2.png")
+```
+
+[^commentaire]: L'IDEX est un programme d'investissement de l'État français dans l'enseignement supérieur et de recherche.
+
+## Le domaine de recherche des bénéficiaires. __seteur_disciplinaire__
+Il y a prés de 50 % des bénéficiaires qui sont issus du domaine de la science, ensuite 21.9 % sont les lettres et sciences humaines (__Voir la figure 3__).  
+Il semble alors que les chercheurs en sciences sont les plus primés, cela est-il dû au programme d'IDEX? (__Voir dans l'analyse de la problematique__)
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Diagramme en barre des domaines des bénéficiaires au prix d'excellence scientifique de 1993 à 2012. "}
+knitr::include_graphics("f3.png")
+```
+
+## La profession des bénéficiaires. __groupe_de_corps__
+Nous constatons qu'il y a 63.8 % des bénéficiaires qui sont des Professeurs, 36.0 % Maîtres de conférences et 0.2 % particuliers. Dans l'ensemble, la majorité des bénéficiaires est dans le corps de l'enseignement supérieur, ce qui est d'autant plus logique.   (__Voir la figure 4__)
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Diagramme en Bande de la profession des bénéficiaires primés au prix d'excellence scientifique. "}
+knitr::include_graphics("f4.png")
+```
+
+## La région des bénéficiaires. __region__
+La région des bénéficiaires la plus représentée est l'Île de france, puis celle de Rhône-Alpes(__Voir figure 5__). Cela s'explique par le fait qu'elles sont des régions de france avec le plus d'étudiants chercheurs d'après [le site](https://www.investirlmnp.fr/actualites/classement-des-villes-etudiantes-par-nombre-etudiants-115) et qu'elles répresentent les deux plus grandes régions contenenant le plus de __PRES__[^comment] d'aprés [le site](https://www.enseignementsup-recherche.gouv.fr). 
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Diagramme en barre répresentant les régions des bénéficiaires. "}
+knitr::include_graphics("f5.png")
+```
+
+## Le lien entre le pôle de  de recherche et l'etablissement. __distance_univ__
+On observe qu'il y a environ 85 % des laboratoires de recherche qui sont rattachés aux établissements(__Voir la figure 6__), cela s'explique peut-être par le fait qu'il y a beaucoup de centres de recherche qui sont en partenariat avec les établissements publics comme la CNRS,  l'EPST,  l'INRA,  l'INRIA,  l'INSERM.....
+
+
+[^comment]: PRES sont les pôles de recherche et d'enseignement supérieur.
+
+```{r , echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Répartition des bénéficiaires primés en fonction du rattechement du laboratoire de recherche et l'établissement. "}
+knitr::include_graphics("f6.png")
+```
+
+# L'étude bivarié
+Dans cette seconde partie, nous allons étudier le croisement de certaines variables que nous avons choisi. Parmi ces variables, nous avons les croisements suivantes :  
+
+* eff_sexe_group : croisement entre les variables Sexe et la professions des bénéficiaires.  
+
+* moy_idex_beneficiaire : croisement entre les variables du programme d'investissement et le nombre de bénéficiaires.  
+
+* moy_sect_beneficiaire : croisement entre les variables du domaine de recherche et le nombre de bénéficiaires.  
+
+* eff_idex_secteur : croisement entre les variables du programme d'investissement et le domaine de recherche.
+
+## La répartition entre le sexe et la professions des bénéficiaires.
+
+### Profil ligne
+
+L'étude du profil ligne de ces deux variables nous montre que parmi les __femmes__ il n'y a pas de __particulier__ alors que tel n'est pas le cas pour les __hommes__ qui représentent 0.3 %.
+Cependant, parmi les __maîtres de conférences__, les __femmes__ constituent 39.6 %, et 33.9 % sont des __hommes__.
+Par ailleurs, les __femmes__ représentent 60.4 % des __Professeurs__ et les __hommes__ 65.8 %. (__voir figure 7__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Profil ligne des variables du sexe et la profession représentées sous forme de diagramme en barres"}
+library('knitr')
+knitr::include_graphics("f8.png")
+```
+
+
+### Profil colonne
+
+Ici, on voit que parmi les __particuliers__, 96.3 % sont des __hommes__ alors que les __femmes__ ne représentent que 3.7 %. Concernant les __maîtres de conférences__, nous avons 40.8 % de __femmes__ et 59.2 % d' __hommes__ ;ce qui ne sont pas le cas pour les __Professeurs__ ,là où 64.9 % sont des __hommes__ et les __femmes__ ne sont que 35.1 %.(__voir figure 8__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Profil colonne des variables du sexe et la profession représentées sous forme de diagramme en barres"}
+library('knitr')
+knitr::include_graphics("f9.png")
+```
+
+D'après ces graphes,on voit qu'il y a une différence de résultats entres les partitions dans chaque profil.
+
+## La répartition entre le programme d'investissement et le nombre de bénéficiaires.
+
+Au total 34 231 des bénéficiaires qui ne sont pas suivi par le programme IDEX et 16 667 qui le sont. Il y'a donc plus de bénéficiaires __HORS IDEX__ que de bénéficiaires suivant le programme d'investissement __IDEX__ .
+On constate aussi la présence de valeurs aberrantes, une dissymétrie au niveau des boites, et un éloignement des moyennes aux médianes. (__voir figure 9__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Représentation de la boîte à moustaches juxtaposées du couple iDex/le nombre de bénéficiaires "}
+library('knitr')
+knitr::include_graphics("f10.png")
+```
+
+
+## La répartition entre le domaine de recherche et le nombre de bénéficiaires.
+
+On constate qu'il y a plus de bénéficiaires en sciences que dans les autres domaines.(__Voir figure 10__)
+On voit qu'en moyenne le nombre de bénéficiaires du secteur __droit et sciences économiques__ est de 2.7843101, 4.2668332 pour le secteur __Lettres et sciences humaines__, 2.2333568 pour le secteur __Santé__, 9.5970784 pour le secteur __Sciences__, et enfin 0.5816679 pour secteurs __STAPS__. Le domaine le moins répresenté à la prime d'excellence scientifique est alors les __STAPS__ .
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Distributions des bénéficiaires des différents domaines de recherche représentées sous forme de diagramme en barre."}
+library('knitr')
+knitr::include_graphics("f11.png")
+```
+
+On constate aussi la présence de valeurs aberrantes, une dissymétrie des boites, et l'éloignement des moyennes aux médianes. (__voir figure 11__)
+
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Répresentation des boîtes à moustaches juxtaposées du couple du domaine/le nombre de beneficiaires"}
+knitr::include_graphics("f12.png")
+```
+
+## La répartition entre le programme d'investissement et le domaine de recherche.
+
+### Profil ligne
+L'étude du profil ligne de ce croisement montre que parmi les __Hors IDEX__ il y a 12.6 % en __droit et sciences économiques__, 21.6 % en __lettres et sciences humaines__, 10.0 % en __santé__, 51.7 % en __Sciences__, et 4.1 % en __STAPS__. Et parmi ceux dans __IDEX__ ll y a 14.5 % en __droit et sciences économiques__, 22.9 % en __lettres et sciences humaines__, 12.2 % en __santé__, 46.8 % en __Sciences__, et 3.6 % en __STAPS__. (__voir figure 12__)
+
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Profil ligne représentée des variables sexes et secteur sous forme de diagramme en barres"}
+library('knitr')
+knitr::include_graphics("f13.png")
+```
+
+
+### Profil colonne
+Ici, on voit que pour le secteur __Droit et sciences économiques__ 72.7 % sont __Hors IDEX__ et 27.3 % sont __IDEX__, dans le secteur __Lettres et sciences humaines__ il y a 74.3 % sont __Hors IDEX__ et 25.7 % __IDEX__ , dans le secteur __santé__ 71.5% sont __Hors IDEX__ et 28.5 % sont __IDEX__ , dans le secteur __Sciences__ 77.2 % sont __Hors IDEX__ et 22.8 % sont __IDEX__, dans le secteur __STAPS__ 78 % sont __Hors IDEX__ et 22 % sont __IDEX__ . (__voir figure 13__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Profil colonne représentée des variables sexes et secteur sous forme de diagramme en barres"}
+knitr::include_graphics("f14.png")
+```
+
+D'après ces graphes, on voit qu'il n'y a pas vraiment de différence de résultats entre les partitions des profils.
+
+# Analyse de la Problématique.
+Après l’étude bivarié, nous avons pu observer qu’il semble avoir une relation de dépendance entre le programme d’investissement (IDEX) et le domaine de recherche des bénéficiaires de la prime.   
+
+En effet, on peut s’apercevoir, qu’il semble avoir une forte influence entre le programme IDEX et les domaines de santé,de Droit et sciences économiques; ce qui n'est le cas pour le domaine de la science(__Voir figure 15__). Cela pourrait peut-être s’expliquer par le fait qu’il y a plus de bénéficiaires qui sont __HORS IDEX__ et prés de la moitié des bénéficiaires qui sont en __sciences__ alors pour répondre à la question posée dans __1.3__, nous pourrons dire que le programme IDEX n’est pas la véritable raison du nombre élevé de bénéficiaires en science, car la relation du couple (IDEX , sciences) est sous représentée par rapport à la situation théorique de dépendance(__Voir figure 15__).
+
+Enfin, nous avons pu mettre en évidence que l’influence qu’a le programme d’investissement IDEX sur quelques domaines des bénéficiaires de la prime d’excellence scientifique grâce aux données des bénéficiaires de la prime d'excellence scientifique de 1993 à 2012, mais nous ne pouvons pas affirmer avec certitude cette influence sachant que les résultats trouvés ne reflètent pas l’évolution de nombres de bénéficiaires par rapport au programme IDEX au fil des années.
+
+Cependant, il serait intéressant de traiter ces données par année afin d’avoir une étude plus pertinente sur l'influence d'un programme d'investissement dans la recherche sur le nombre de bénéficiaires de la prime d'excellence scientifique.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# (APPENDIX) Annexes {-}
+
+# Annexes 
+
+## Le Pré-traitement
+Il a consisté à rendre la base plus compréhensible pour faciliter notre analyse. Nous avons donc supprimé les colonnes référençant certains codes qui ne nous serviront pas (code_secteur, code_region, code_pres, ...), ensuite nous avons ajouté les variables __ideX__ et __distance_univ__ en se basant déjà sur la colonne "idex" et "pres" pour les rendre plus exploitables. Ce pré-traitement nous a permis d'avoir une dataframe plus compréhensible que la base de données initiale. La difficulté rencontrée dans cette partie a été de pourvoir modifier les cases vides dans les variables __groupe_de_corps__ par __particuliers__ ; car lorsqu'on essaye, toutes les lignes des cases vides sont remplacées par __particuliers__ ce qui n'était pas cohérant alors finalement, on a laissé ces cases vides toutes en supposant qu'ils n'avaient pas de métiers ces bénéficiaires d'où le nom __particuliers__ pour les cases vides de __groupe_de_corps__ dans nos analyses.
+
+## Test d’indépendance entre le sexe et la professions des bénéficiaires. 
+Etant  donné que ces deux variables sont qualitatives, appliquons la procédure chisq.test du logiciel R au tableau des effectifs croisés du couple (sexe, groupe_de_corps).
+
+$$
+chisq.test(eff\_sexe\_group) \\
+
+Pearson's\quad Chi-squared test \\
+
+data: eff\_sexe\_group \\
+
+X-squared = 49.277, df = 2, p-value = 0.00000000001994.
+$$
+
+Au niveau de significativité de 5 %, on conclut qu’il existe un lien de dépendance significatif entre le sexe et les professions des bénéficiaires.
+L’examen des résidus standardisés (__voir la figure 14__) permet de clarifier que les principales contributions à l’inertie sont dues aux couples (femmes, particuliers),(hommes, Maîtres de conférences et assimilés), (femmes, Professeurs et assimilés) respectivement sous-représentés et (hommes, particuliers),(femmes, Maîtres de conférences et assimilés),(hommes, Professeurs et assimilés) respectivement sur-représentés par rapport à la situation théorique de dépendance.
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Visualisation des résidus associés entre le sexe et la profession des bénéficiaires."}
+knitr::include_graphics("f15.png")
+```
+
+## Test d’indépendance entre le programme d'investissement et le nombre de bénéficiaires.
+En croisant ces deux variables, nous constatons qu'il y a plus de bénéficiaires __HORS IDEX__ que __IDEX__, puisque la variable __beneficiaire__ est quantitative et __ideX__ qualitative à deux modalités, nous avons donc fait le test de student.
+
+$$ F\quad test\quad to\quad compare\quad two\quad variances \\
+
+data:\quad beneficiaires\quad by\quad ideX\\
+
+F = 0.42592, num df = 8655, denom df = 2817, p-value <
+0.00000000000000022 \\
+
+alternative\quad hypothesis:\quad true\quad ratio\quad of\quad variances\quad is\quad not\quad equal\quad to\quad 1 \\
+
+95\quad percent\quad confidence\quad interval: \\
+
+ 0.4008785\quad 0.4521110 \\
+ 
+sample\quad estimates: \\
+
+ratio\quad of\quad variances  \\
+
+         0.4259233 $$
+
+On constate une différence notable de variances au sein des sous-populations et la p-value < seuil, on conclut qu’il n'y a pas une différence significative de variance entre les deux populations.
+
+$$ Welch\quad Two\quad Sample\quad t-test \\
+
+data:\quad  beneficiaires\quad by\quad ideX \\
+
+t = -9.9461, df = 3629.7, p-value = 1 \\
+
+alternative\quad hypothesis:\quad true\quad \\
+
+difference\quad in\quad means\quad is\quad greater\quad than\quad 0 \\
+
+95\quad percent\quad confidence\quad interval: \\
+
+ -2.28408\quad      Inf \\
+ 
+sample\quad estimates: \\
+
+mean\quad in\quad group\quad Hors\quad IDEX       \quad mean in group IDEX  \\
+
+               3.954598             5.914478  $$
+La p-value > 0.05, on accepte l'hypothèse H0. Alors il n'y a pas de différence significative entre les moyennes entre __IDEX__ et __beneficiaires__.
+
+## Test d'indépendance entre le le domaine de recherche et le programme d'investissement.
+
+Donc d'après les résultats obtenus dans l'analyses bivarié pour ce croisement, il ne semble pas émerger de tendance de dépendance entre __ideX__ et le __secteur_discipline__. On va supposer alors les hypothèses H1=indépendance entre les variables (p_value> seuil) et H0=dépendance entre les variables (p_value< seuil) et nous allons faire le teste du khi-deux.
+
+$$
+chisq.test(eff\_idex\_secteur) \\
+
+Pearson's\quad Chi-squared test\\
+
+data: eff\_idex\_secteur\\
+
+X-squared = 29.396, df = 4, p-value = 0.000006495
+$$
+
+Au niveau de significativité de 5 %, on conclut qu’il existe un lien de dépendance significative entre deux les variables.
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Visualisation des résidus associés entre le programme d'investissement et le domaine de recherche."}
+knitr::include_graphics("f16.png")
+```
+
+Les principales contributions à l’inertie sont dues aux couples  (IDEX, Santé),(IDEX, Droit et sciences économiques) respectivement sur-représentées et (IDEX, Sciences) sous-représentée par rapport à la situation théorique de dépendance. (__voir figure 15__).
+
+## Test d'indépendance entre le programme d'investissement et la position du laboratiore de recherche à l'etablissement.
+### Profil ligne
+
+L'étude du profil ligne de ce croisement nous montre que parmi les __Hors IDEX__ il y a 13.6 % qui sont en __Hors PRES__ et 86.4 % en __PRES__. Et parmi ceux dans __ideX__ il y a 20.6 % qui sont en __Hors PRES__ et 79.4 % en __PRES__. ( __voir figure 16__ ).
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Effectifs du profil ligne représentée des variables iDEx et la position du laboratoire de recherche à l'établissement."}
+knitr::include_graphics("f17.png")
+```
+
+### Profil colonne
+
+Ici, on voit que pour la variable __Hors PRES__ 67 % sont __Hors IDEX__ alors que les 33 % sont __IDEX__, et pour la variable __PRES__ 77 % sont __Hors IDEX__ alors que les 23 % sont __IDEX__ (__voir figure 17__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Effectifs du profil colonne représentée des variables le programme d'investissement et la position du laboratiore de recherche à l'etablissesement"}
+knitr::include_graphics("f18.png")
+```
+
+D'après ces analyses, il ne semble pas émerger de tendance de dépendance entre le programme d'investissement et la position du laboratiore de recherche à l'etablissesement. On va supposer alors les hypotheses H1=indépendance entre les variables (p_value> seuil) et H0=dépendance entre les variables (p_value< seuil) et nous allons faire le test du khi-deux.
+
+$$
+chisq.test(eff\_idex\_dist) \\
+
+Pearson's\quad Chi-squared test \\
+
+data: eff\_idex\_dist\\
+
+X-squared = 78.834, df = 1, p-value = 0.00000000000000022
+$$
+
+Au niveau de significativité de 5 %, on conclut qu’il existe un lien de dépendance significative entre les variables. Alors les principales contributions à l’inertie sont dues aux couples (HORS IDEX, Hors PRES), (IDEX, PRES) respectivement sous-représentées et (IDEX, HORS PRES) sur-représentées par rapport à la situation théorique de dépendance.(__voir figure 18__)
+
+```{r, echo=FALSE,fig.pos = 'ht!', fig.align='center', fig.cap="Visualisation des résidus associés entre le programme d'investissement et la position du laboratiore de recherche à l'etablissesement"}
+knitr::include_graphics("f19.png")
+```
+
+## Test d'indépendance entre le sexe et le nombre de bénéficiaires.
+
+En croisant ces deux variables, nous constatons qu'il y a plus de bénéficiaires d' __Hommes__ que de __femme__, et comme la variable __beneficiaires__ est quantitative et __sexe__ est qualitative à deux modalités, nous avons donc effectué le test de student.
+
+$$ F test\quad to\quad compare\quad two\quad variances \\
+
+data:\quad  beneficiaires\quad by\quad sexe \\
+
+F = 0.085102, num df = 4251, denom df = 7221, p-value < 0.00000000000000022 \\
+
+alternative\quad hypothesis:\quad true\quad ratio\quad of variances\quad is\quad not\quad equal\quad to\quad 1 \\
+
+95\quad percent\quad confidence\quad interval: \\
+
+ 0.08067692 \quad     0.08980435 \\
+ 
+sample\quad estimates: \\
+
+ratio\quad of\quad variances \\
+
+        0.08510234  $$
+
+On constate une différence notable de variances au sein des sous-populations et la p-value < 0.05, on conclut qu’il n'y a pas une différence significative de variance entre les deux populations.
+
+$$ Welch\quad Two\quad Sample\quad t-test \\
+
+data:\quad  beneficiaires\quad by\quad sexe \\
+
+t = -28.235, df = 9135.2, p-value = 1 \\
+
+alternative\quad hypothesis:\quad true\quad difference\quad in\quad means\quad is\quad greater\quad than\quad 0 \\
+
+95\quad percent\quad confidence\quad interval: \\
+
+ -3.36289      Inf \\
+ 
+sample\quad estimates: \\
+
+mean\quad in\quad group\quad Femmes\quad mean\quad in\quad group\quad Hommes \\ 
+
+            2.435795             5.613542  $$
+
+Puisque la p-value > 0,05 alors on accepte l'hypothèse H0, et il n'y a pas de différence significative entre les moyennes.
+
+# Bibliographie
+1. Hamon Agnès et Jégou Nicolas _Presses universitaires de Rennes, 2008._ "Statistique descriptive".
+2. Husson François et Lê, Sébastien _Pratique de la statistique_  "Analyse de données avec R".
+3. Les étapes statitiques [Site](http://bienvenudansladata.com/etude-statistique-quelles-etapes)
+4. Ministère de l'Enseignement supérieur, de la Recherche et de l'Innovation [Site](https://www.enseignementsup-recherche.gouv.fr/)
+5. Les bénéficiaires de la prime d'excellence scientifique.
+[Site](https://www.data.gouv.fr/fr/datasets/les-beneficiaires-de-la-prime-d-excellence-scientifique-mesr/)  .
